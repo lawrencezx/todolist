@@ -47,5 +47,6 @@ install: todolist
 
 uninstall: 
 	rm -r ~/.todolist
+	rm ./todolist
 	rm ./obj/*.o
 	rm $(PREFIX)/bin/todolist
