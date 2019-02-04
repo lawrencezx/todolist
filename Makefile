@@ -1,34 +1,51 @@
 # Makefile for todolist
 
-# Programs, etc.
-CC       = gcc
-PREFIX   = /usr/local
 
-# This program
+# Directories
+DIR_INC    = ./include
 DIR_SRC    = ./src
+DIR_OBJ    = ./obj
 DIR_BIN    = ./bin
 
-FILE_H     = todolist.h
-FILE_C     = todolist.c
+# Programs, etc.
+CC       = gcc
+CFLAGS   = -O2 -Wall -I ${DIR_INC}
+PREFIX   = /usr/local
+FILE_H     = todolist.h print_list.h getopt.h
 
-FILE_O     = todolist.o
+# This program
+SRC        = $(wildcard $(DIR_SRC)/*.c)
 
-BIN_TARGET = $(DIR_BIN)/$(FILE_O)
+OBJ        = $(patsubst %.c, $(DIR_OBJ)/%.o, $(notdir ${SRC}))
 
-.PHONY: clean everything all install uninstall 
+.PHONY: clean install uninstall 
 
-clean :
-	rm -f *.o
+all: clean todolist
 
-everything: $(BIN_TARGET)
+clean:
+	rm -f $(DIR_OBJ)/*.o
 
-all: clean everything
+todolist: ${OBJ}
+	$(CC) -o $@ ${OBJ}
 
-todolist: $(DIR_SRC)/todolist.c $(DIR_SRC)/todolist.h
-	$(CC) -o $@ $<
+${DIR_OBJ}/todolist.o: ${DIR_OBJ}/print_list.o ${DIR_OBJ}/getopt.o ${DIR_OBJ}/print_list.o ${DIR_OBJ}/write_list.o
+
+${DIR_OBJ}/print_list.o: ${DIR_OBJ}/read_list.o
+
+${DIR_OBJ}/write_list.o: ${DIR_OBJ}/read_list.o
+
+${DIR_OBJ}/%.o: ${DIR_SRC}/%.c
+	$(CC) $(CFLAGS) -c $< -o $@
 
 install: todolist
+	mkdir ~/.todolist
+	touch ~/.todolist/list.txt
+	touch ~/.todolist/list_history.txt
+	chmod 777 ~/.todolist/list.txt ~/.todolist/list_history.txt
+	cp ./sentences-config ~/.todolist/sentences-config
 	install -m 0755 todolist $(PREFIX)/bin
 
 uninstall: 
+	rm -r ~/.todolist
+	rm ./obj/*.o
 	rm $(PREFIX)/bin/todolist

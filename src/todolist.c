@@ -1,8 +1,17 @@
-#include "todolist.h"
+#include "../include/global.h"
+#include "../include/todolist.h"
+#include "../include/getopt.h"
+#include "../include/print_list.h"
+#include "../include/write_list.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
+opt_t opt;
+
+static void init(void) {
+  HOME = getenv("HOME");
+}
 
 static void usage (FILE *st)
 /*
@@ -53,18 +62,56 @@ static int process_commandline(int argc, char *argv[])
  *
  */
 {
+  int oc;
+  int rc = 0;
+
+  memset (&opt, 0, sizeof(opt_t));
+
+  if (argc <= 1) {
+    print_list();
+    return 1;
+  }
+
   if (argc >= 2 && argv[1] != NULL
       && (strcmp(argv[1], "--help") == 0|| strcmp(argv[1], "-?") == 0))
   {
     usage_long(stdout);
     return 1;
   }
+
+  /*
+   * Parse Command Line
+   */
+  do {
+    oc = getopt(argc, argv);
+    switch (oc) {
+      case 'd':
+        break;
+      case 'h':
+        usage_long(stdout);
+        break;
+      case 'l':
+        break;
+      case 'm':
+        break;
+      case 'r':
+        break;
+      case 'w':
+        write_list();
+        break;
+      default:
+        usage_short(stdout);
+        break;
+    }
+  } while(0);
   /*TO DO*/
-  return -1;
+  return rc;
 }
 
 int main(int argc, char *argv[]) 
 {
+  init();
+
   int rc;
 
   #ifdef DEBUG
@@ -77,6 +124,7 @@ int main(int argc, char *argv[])
   #ifdef DEBUG
     fprintf(stderr, "Parsing Command Line ...\n");
   #endif
+  
   rc = process_commandline(argc, argv);
   if (rc == 1) {
     exit (EXIT_SUCCESS);
