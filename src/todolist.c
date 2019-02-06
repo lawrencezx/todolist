@@ -2,7 +2,7 @@
 #include "../include/todolist.h"
 #include "../include/getopt.h"
 #include "../include/print_list.h"
-#include "../include/write_list.h"
+#include "../include/edit_list.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -20,12 +20,13 @@ static void usage (FILE *st)
  */
 {
   fprintf (st, "Usage:  %s [options]\n", PROJECT);
-  fprintf (st, "        -d date  set date, i.e. set date 2020.1.1\n");
-  fprintf (st, "        -h       print usage information\n");
-  fprintf (st, "        -l date  list todolist\n");
-  fprintf (st, "        -m t/e   set mode time/energy mode\n");
-  fprintf (st, "        -r num   remove list item by order number\n");
-  fprintf (st, "        -w num   edit todolist\n");
+  //fprintf (st, "        -d date   set date, i.e. set date 2020.1.1\n");
+  fprintf (st, "        -h            print usage information\n");
+  //fprintf (st, "        -l date   list todolist\n");
+  //fprintf (st, "        -m t/e    set mode time/energy mode\n");
+  fprintf (st, "        -s num1 num2  swap list num1, num2\n");
+  fprintf (st, "        -r num        remove list item by order number\n");
+  fprintf (st, "        -w num        edit todolist\n");
 }
 
 static void usage_short (FILE *st)
@@ -46,7 +47,7 @@ static void usage_long (FILE *st)
 {
   fprintf(st, "%s - lists your to-do list and helps you manage your energy\n", PROJECT);
   fprintf(st, "       (c) Lawrence Zou <email: iwatchnima@gmail.com>\n");
-  fprintf(st, "       wed page: not created yet!\n");
+  fprintf(st, "       web page: not created yet!\n");
   usage (st);
 }
 
@@ -94,7 +95,11 @@ static int process_commandline(int argc, char *argv[])
         break;
       case 'm':
         break;
+      case 's':
+        swap_list(opt.swap_num1, opt.swap_num2);
+        break;
       case 'r':
+        remove_list(opt.remove_num);
         break;
       case 'w':
         write_list();

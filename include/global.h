@@ -4,8 +4,8 @@
 #include <stdio.h>
 #include <time.h>
 
-/*#define DEBUG 1
-*/
+//#define DEBUG 1
+
 
 #define SENTENCES_CONFIG "/.todolist/sentences-config"
 #define LIST "/.todolist/list.txt"
@@ -52,7 +52,7 @@ typedef struct List {
  */
 
 typedef struct Lists {
-  int num;
+  unsigned int num;
   struct tm time;
   struct List *tail;
   struct List *lists;

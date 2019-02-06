@@ -12,8 +12,17 @@
 
 typedef struct {
   int date;
-  int r;                                   /* remove list iterm */
-  int w;                                   /* write todo list */
+  char opt;                                   /* option code of remove_num
+                                               * option can be:
+                                               *   'h'
+                                               *   'r'
+                                               *   'w'
+                                               *   's'
+                                               */
+  unsigned remove_num;                    /* Number of list to remove*/
+
+  unsigned swap_num1;
+  unsigned swap_num2;
 } opt_t;
 
 extern opt_t opt;

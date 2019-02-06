@@ -28,11 +28,11 @@ clean:
 todolist: ${OBJ}
 	$(CC) -o $@ ${OBJ}
 
-${DIR_OBJ}/todolist.o: ${DIR_OBJ}/print_list.o ${DIR_OBJ}/getopt.o ${DIR_OBJ}/print_list.o ${DIR_OBJ}/write_list.o
+${DIR_OBJ}/todolist.o: ${DIR_OBJ}/print_list.o ${DIR_OBJ}/getopt.o ${DIR_OBJ}/print_list.o ${DIR_OBJ}/edit_list.o
 
 ${DIR_OBJ}/print_list.o: ${DIR_OBJ}/read_list.o
 
-${DIR_OBJ}/write_list.o: ${DIR_OBJ}/read_list.o
+${DIR_OBJ}/edit_list.o: ${DIR_OBJ}/read_list.o
 
 ${DIR_OBJ}/%.o: ${DIR_SRC}/%.c
 	$(CC) $(CFLAGS) -c $< -o $@
