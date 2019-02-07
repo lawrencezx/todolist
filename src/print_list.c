@@ -34,8 +34,9 @@ static void print_lists(void)
       fprintf(stderr, "We have %d things to do today!\n", lists->num);
     }
     int order = 1;
+    fprintf(stderr, "\n");
     while (preList != NULL) {
-      fprintf(stderr, "List %d=> %s\n", order++, preList->words);
+      fprintf(stderr, "\033[;31m List %d\033[0m => \033[;31;1m%s\033[0m\n", order++, preList->words);
       preList = preList->next;
     }
   }
@@ -46,6 +47,7 @@ static void print_sentences(void)
   #ifdef DEBUG
     fprintf(stderr, "Print Sentences Starting ... \n");
   #endif
+  fprintf(stderr, "\n");
   char home[MAXHOMEPATHLEN];
   strcpy(home, HOME);
   sentences_config_path = strcat(home, SENTENCES_CONFIG);
@@ -65,7 +67,7 @@ static void print_sentences(void)
   {
     if (buff[0] == VALID_SENTENCE_SYMBOL) {
       strcpy(buff, buff+1);
-      fprintf(stderr, "%s\n", buff);
+      fprintf(stderr, "\033[1m %s \033[0m\n", buff);
       break;
     }
   }
