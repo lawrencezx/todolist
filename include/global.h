@@ -33,7 +33,7 @@ FILE * list_history;     /* see ~/.todolist/list-history */
 
 
 #define VALID_SENTENCE_SYMBOL '>'       /* the begging character of a valid sentence */
-#define SENTENCES_CONFIGLINE 100        /* use for selecting sentence randomly
+#define SENTENCES_CONFIGLINE 157        /* use for selecting sentence randomly
                                            Attention: 
                                              Usually it is the line number of the last valid sentence.
                                              It should not be great than the line of
