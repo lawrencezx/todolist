@@ -48,3 +48,33 @@ I have only one thing to do today!
 
 ## 长期计划
 增加,删除,交换顺序等功能都有
+```
+➜  todolist git:(master) ✗ todolist -t 
+date:26, 2, 2019
+I don't have any target to achieve!
+
+ 我们都想被爱。我们都想去爱。我们都想有人能一起分享生活。 
+➜  todolist git:(master) ✗ todolist -t w
+Please input your target and the days to achieve your target
+ 'q' to exit
+TARGET<<看一部电影
+DAYS  <<0
+TARGET<<学会做一道菜
+DAYS  <<1
+TARGET<<每周健身四次,每次一小时
+DAYS  <<90
+TARGET<<每天坚持11点前睡觉,7点左右起床
+DAYS  <<365
+TARGET<<q
+➜  todolist git:(master) ✗ todolist -t  
+date:26, 2, 2019
+I have 4 targets to achieve!
+
+ COUNTDOWN    TARGET
+ deadline  => 看一部电影
+    1 day  => 学会做一道菜
+   90 days => 每周健身四次,每次一小时
+  365 days => 每天坚持11点前睡觉,7点左右起床
+
+ 你最终获得了“你想要的一切”，但却无人可以分享。 
+```
