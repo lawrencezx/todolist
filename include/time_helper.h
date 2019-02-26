@@ -12,15 +12,18 @@
 (  A list is a thing that you have to do in the very day.                           )
  ) A target is a thing that you have to finish in limited days that you input.     (
 '-----------------------------------------------------------------------------------*/
-#ifndef EDIT_LIST_H_0ZQO9VLW
-#define EDIT_LIST_H_0ZQO9VLW
+#ifndef TIME_HELPER_H_JW7B0MLZ
+#define TIME_HELPER_H_JW7B0MLZ
 
-void write_list (void);
-void remove_list(unsigned num);
-void swap_list(unsigned num1, unsigned num2);
+#include<stdio.h>
+#include<time.h>
 
-void write_target (void);
-void remove_target(unsigned num);
-void swap_target(unsigned num1, unsigned num2);
+int same_day(struct tm *time1, struct tm *time2);
 
-#endif /* end of include guard: EDIT_LIST_H_0ZQO9VLW */
+void print_date(struct tm time);
+
+int day_diff(int year_start, int month_start, int day_start
+			, int year_end, int month_end, int day_end);
+
+
+#endif /* end of include guard: TIME_HELPER_H_JW7B0MLZ */

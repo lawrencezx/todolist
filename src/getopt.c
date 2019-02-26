@@ -1,3 +1,17 @@
+/*                              __   _,--="=--,_   __
+                               /  \."    .-.    "./  \
+                              /  ,/  _   : :   _  \/` \
+                              \  `| /o\  :_:  /o\ |\__/
+                               `-'| :="~` _ `~"=: |
+                                  \`     (_)     `/
+                           .-"-.   \      |      /   .-"-.
+.-------------------------{     }--|  /,.-'-.,\  |--{     }-------------------------.
+ )                        (_)_)_)  \_/`~-===-~`\_/  (_(_(_)                        (
+(  todolist - Command line application to manage your daily or long-term schedule.  )
+ ) You can write both lists and targets.                                           (
+(  A list is a thing that you have to do in the very day.                           )
+ ) A target is a thing that you have to finish in limited days that you input.     (
+'-----------------------------------------------------------------------------------*/
 #include "../include/global.h"
 #include "../include/todolist.h"
 #include "../include/getopt.h"
@@ -42,20 +56,12 @@ getopt(argc, argv)
     return op;
   } else if (argv[1][0] != '-' || argv[1][2] != 0){
     fprintf(stderr, "%s: unrecognized option '%s'\n",argv[0],argv[1]);
+    return 0;
   }
   switch(argv[1][1]) {
-    //case 'd':
-    //  op = 'd';
-    //  break;
     case 'h':
       op = 'h';
       break;
-    //case 'l':
-    //  op = 'l';
-    //  break;
-    //case 'm':
-    //  op = 'm';
-    //  break;
     case 's':
       if (argc < 4) {
         err(ERR_TFA);
@@ -81,6 +87,41 @@ getopt(argc, argv)
       }
       op = 'r';
       break;
+    case 't':
+      op = 't';
+      opt.target_opt = '\0';
+      if (argc >=3) {
+        if (argv[2][1] != 0){
+          fprintf(stderr, "%s: unrecognized option '%s %s'\n",argv[0],argv[1],argv[2]);
+          return 0;
+        }
+        if (argv[2][0] == 'w') {
+          opt.target_opt = 'w';
+        } else if (argv[2][0] == 'r') {
+          opt.target_opt = 'r';
+          if (argc < 4) {
+            return 0;
+          } else if (atoi(argv[3]) <= 0) {
+            return 0;
+          } else {
+            opt.remove_num = (unsigned)atoi(argv[3]);
+          }
+        } else if (argv[2][0] == 's') {
+          opt.target_opt = 's';
+          if (argc < 5) {
+            return 0;
+          } else if (atoi(argv[3]) <=0 || atoi(argv[4]) <= 0){
+            return 0;
+          } else {
+            opt.swap_num1 = (unsigned)atoi(argv[3]);
+            opt.swap_num2 = (unsigned)atoi(argv[4]);
+          }
+        } else {
+          fprintf(stderr, "%s: unrecognized option '%s %s'\n",argv[0],argv[1],argv[2]);
+          return 0;
+        }
+      }
+      break;
     case 'w':
       op = 'w';
       break;
@@ -88,5 +129,6 @@ getopt(argc, argv)
       fprintf(stderr, "%s: unrecognized option '%s'\n",argv[0],argv[1]);
       break;
   }
+  opt.opt = op;
   return op;
 }

@@ -1,3 +1,17 @@
+/*                              __   _,--="=--,_   __
+                               /  \."    .-.    "./  \
+                              /  ,/  _   : :   _  \/` \
+                              \  `| /o\  :_:  /o\ |\__/
+                               `-'| :="~` _ `~"=: |
+                                  \`     (_)     `/
+                           .-"-.   \      |      /   .-"-.
+.-------------------------{     }--|  /,.-'-.,\  |--{     }-------------------------.
+ )                        (_)_)_)  \_/`~-===-~`\_/  (_(_(_)                        (
+(  todolist - Command line application to manage your daily or long-term schedule.  )
+ ) You can write both lists and targets.                                           (
+(  A list is a thing that you have to do in the very day.                           )
+ ) A target is a thing that you have to finish in limited days that you input.     (
+'-----------------------------------------------------------------------------------*/
 #include "../include/global.h"
 #include "../include/todolist.h"
 #include "../include/getopt.h"
@@ -9,7 +23,12 @@
 
 opt_t opt;
 
-static void init(void) {
+static void init(void) 
+/*
+ * Initial environment.
+ *
+ */
+{
   HOME = getenv("HOME");
 }
 
@@ -20,13 +39,14 @@ static void usage (FILE *st)
  */
 {
   fprintf (st, "Usage:  %s [options]\n", PROJECT);
-  //fprintf (st, "        -d date   set date, i.e. set date 2020.1.1\n");
-  fprintf (st, "        -h            print usage information\n");
-  //fprintf (st, "        -l date   list todolist\n");
-  //fprintf (st, "        -m t/e    set mode time/energy mode\n");
-  fprintf (st, "        -s num1 num2  swap list num1, num2\n");
-  fprintf (st, "        -r num        remove list item by order number\n");
-  fprintf (st, "        -w num        edit todolist\n");
+  fprintf (st, "        -h              print usage information\n");
+  fprintf (st, "        -s num1 num2    swap list num1, num2\n");
+  fprintf (st, "        -r num          remove list item by order number\n");
+  fprintf (st, "        -w              write todolist\n");
+  fprintf (st, "        -t              print all targets\n");
+  fprintf (st, "        -t s num1 num2  swap target num1, num2\n");
+  fprintf (st, "        -t r num1       remove target item by order number\n");
+  fprintf (st, "        -t w            write target\n");
 }
 
 static void usage_short (FILE *st)
@@ -51,33 +71,28 @@ static void usage_long (FILE *st)
   usage (st);
 }
 
-static int process_commandline(int argc, char *argv[])
+static void process_commandline(int argc, char *argv[])
 /*
  * Process command line options.
  *
  *  argc, argv   command line as passed to main())
  *
- *  RETURNS:   == 0 success, continue
- *             == 1 success, but terminate anyway (e.g. help/version)
- *             != 0/1 error
- *
  */
 {
   int oc;
-  int rc = 0;
 
   memset (&opt, 0, sizeof(opt_t));
 
   if (argc <= 1) {
     print_list();
-    return 1;
+    return ;
   }
 
   if (argc >= 2 && argv[1] != NULL
       && (strcmp(argv[1], "--help") == 0|| strcmp(argv[1], "-?") == 0))
   {
     usage_long(stdout);
-    return 1;
+    return ;
   }
 
   /*
@@ -98,6 +113,20 @@ static int process_commandline(int argc, char *argv[])
       case 's':
         swap_list(opt.swap_num1, opt.swap_num2);
         break;
+      case 't':
+        if (opt.target_opt == '\0') {
+          print_target();
+        } else {
+          if (opt.target_opt == 'w') {
+            write_target();
+          } else if (opt.target_opt == 's') {
+            swap_target(opt.swap_num1, opt.swap_num2);
+          } else if (opt.target_opt == 'r') {
+            remove_target(opt.remove_num);
+          } else {
+          }
+        }
+        break;
       case 'r':
         remove_list(opt.remove_num);
         break;
@@ -109,15 +138,12 @@ static int process_commandline(int argc, char *argv[])
         break;
     }
   } while(0);
-  /*TO DO*/
-  return rc;
+  return ;
 }
 
 int main(int argc, char *argv[]) 
 {
   init();
-
-  int rc;
 
   #ifdef DEBUG
     fprintf(stderr, "TODOLIST STARTING ...\n");
@@ -130,15 +156,6 @@ int main(int argc, char *argv[])
     fprintf(stderr, "Parsing Command Line ...\n");
   #endif
   
-  rc = process_commandline(argc, argv);
-  if (rc == 1) {
-    exit (EXIT_SUCCESS);
-  }
-  if (rc) {
-    exit (EXIT_FAILURE);
-  }
-
-  /*TO DO*/
-
+  process_commandline(argc, argv);
   return EXIT_SUCCESS;
 }
