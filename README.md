@@ -4,9 +4,13 @@
 
 todolist是一个极简风格的待办事物列表,它包括两部分,一个是当天事物的待办列表,另外一个是长期的计划.
 
-## 安装方法
+## 安装
 ```
 sudo make install
+```
+
+## 卸载
+```
 sudo make uninstall
 ```
 
